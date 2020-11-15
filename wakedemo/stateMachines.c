@@ -9,11 +9,14 @@ int x = 500;                    /* x set to 0 */
 
 void color_advance()   		   /* switch between different dimming modes */
 {
-  secCount = 0;
+  switch(master){
+  case 0:
+    secCount = 0;
     fontFgColor2 = (fontFgColor == COLOR_RED) ? COLOR_RED : COLOR_WHITE;
     fontFgColor = (fontFgColor == COLOR_RED) ? COLOR_WHITE : COLOR_RED;
-    buzzer_set_period(2000000/500);
+    buzzer_set_period(0);
     redrawScreen = 1;
+  }
 }
 
 /*
