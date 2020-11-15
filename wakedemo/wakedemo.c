@@ -3,6 +3,7 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "stateMachines.h"
+#include "buzzer.h"
 
 #define LED_GREEN BIT6             // P1.6
 
@@ -27,6 +28,7 @@ void main()
   P1OUT |= LED_GREEN;
   configureClocks();
   lcd_init();
+  buzzer_init();
   
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */

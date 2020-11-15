@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "stateMachines.h"
 #include "lcdutils.h"
+#include "buzzer.h"
 
 int master = 0;                 /* master state set automatically to 0 */
 int substate = 0;               /* substate set automatically to 0 */
@@ -11,6 +12,7 @@ void color_advance()   		   /* switch between different dimming modes */
   secCount = 0;
     fontFgColor2 = (fontFgColor == COLOR_RED) ? COLOR_RED : COLOR_WHITE;
     fontFgColor = (fontFgColor == COLOR_RED) ? COLOR_WHITE : COLOR_RED;
+    buzzer_set_period(2000000/500);
     redrawScreen = 1;
 }
 
