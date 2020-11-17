@@ -8,16 +8,32 @@
 #define LED_GREEN BIT6             // P1.6
 
 
-short redrawScreen = 1;
+short redrawScreen = 0;
+short redrawScreen2 = 1;
 u_int fontFgColor = COLOR_RED;
 u_int fontFgColor2 = COLOR_WHITE;
 int secCount = 0;
-
+char seconds = 0;
 void wdt_c_handler()
 {
-  secCount ++;
-  if (secCount == 250) {		/* once/sec */
-    color_advance();
+  switch(master){
+  case 0:
+    secCount ++;
+    if(secCount == 10){
+      buzzer_set_period(0);
+    }
+    if (secCount == 50 && seconds <= 7) {		/* once/sec */
+      seconds++;
+      secCount = 0;
+      redrawScreen = 1;
+      redrawScreen2 = 1;
+    }
+    if(secCount == 250 && seconds > 7){
+      secCount = 0;
+      redrawScreen = 1;
+      color_advance();
+    }
+    break;
   }
 }
   
@@ -36,27 +52,26 @@ void main()
   clearScreen(COLOR_BLACK);
   while (1) {			/* forever */
     if (redrawScreen) {
-      redrawScreen = 0;
-      drawString5x7(20,20, "hello", fontFgColor, COLOR_BLACK);
-      u_char offc = 30;
-      u_char offr = 30;
-      for(u_char r = 0; r < 10; r++){
-	for(u_char c = 0; c <= r; c++){            
-	  drawPixel(offc-c, offr+r, fontFgColor);
-	  drawPixel(offc+c, offr+r, fontFgColor);
-	  drawPixel(offc-c, offr+19-r, fontFgColor2);  /* this also makes a diamond */
-	  drawPixel(offc+c, offr+19-r, fontFgColor2);
+      switch(master){
+      case 0:
+	redrawScreen = 0;
+	if(redrawScreen2){
+	  redrawScreen2 = 0;
+	  main_menu_advance();
 	}
+	else{
+	  // drawDiamond(screenWidth/2, screenHeight/2-25, fontFgColor);
+	  drawString8x12(screenWidth/2-36, screenHeight/2-50,"Welcome!", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-48, screenHeight/2-25,"Press S1 to load", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-45, screenHeight/2-10,"Press any other", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-27, screenHeight/2,"to reload", fontFgColor, COLOR_BLACK);
+	}
+	break;
       }
     }
     P1OUT &= ~LED_GREEN;	/* green off */
+    secCount = 0;
     or_sr(0x10);		/**< CPU OFF */
     P1OUT |= LED_GREEN;		/* green on */
   }
 }
-
-    
-    
-
-
-

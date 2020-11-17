@@ -3,6 +3,8 @@
 
 extern int master;
 
+extern int colorState;
+
 extern int substate;
 
 extern int x;               /* frequency */
@@ -13,6 +15,8 @@ extern char seconds;
 extern char blink_count;
 
 void color_advance();
+
+void main_menu_advance();
 
 void ambulance_advance(int stateA);
 #endif // included
