@@ -1,22 +1,33 @@
+
 #include <msp430.h>
 #include "stateMachines.h"
 #include "lcdutils.h"
 #include "buzzer.h"
+#include "lcddraw.h"
 
 int master = 0;                 /* master state set automatically to 0 */
 int substate = 0;               /* substate set automatically to 0 */
 int x = 500;                    /* x set to 0 */
 
+int colorState = 0;
+
 void color_advance()   		   /* switch between different dimming modes */
 {
-  switch(master){
+  switch(colorState){
   case 0:
-    secCount = 0;
     fontFgColor2 = (fontFgColor == COLOR_RED) ? COLOR_RED : COLOR_WHITE;
     fontFgColor = (fontFgColor == COLOR_RED) ? COLOR_WHITE : COLOR_RED;
     buzzer_set_period(0);
-    redrawScreen = 1;
   }
+}
+
+void main_menu_advance(){
+  buzzer_set_period(2000000/500);
+  static u_char rcolS = screenWidth/2-36;
+  u_char rrowS = screenHeight/2-50;
+  static char *string = "Welcome!";
+  drawChar8x12(rcolS, rrowS, *string++, fontFgColor, COLOR_BLACK);
+  rcolS+=9;
 }
 
 /*
