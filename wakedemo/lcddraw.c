@@ -173,3 +173,25 @@ void drawDiamond(u_char offc, u_char offr, u_int color)
     }
   }
 }
+
+void drawHouse(u_char offc, u_char offr, u_int color, u_int color2)
+{
+  for(u_char r = 0; r < 10; r++){
+    for(u_char c = 0; c <= r; c++){            
+      drawPixel(offc-c, offr+r, color);
+      drawPixel(offc+c, offr+r, color);
+    }
+  }
+  for(u_char r = 0; r < 10; r++){
+    for(u_char c = 0; c < 7; c++){
+      if(c <= 2 && r >= 6){
+	drawPixel(offc-c, offr+r+10, color2);
+	drawPixel(offc+c, offr+r+10, color2);
+      }
+      else{
+	drawPixel(offc-c, offr+r+10, color);
+	drawPixel(offc+c, offr+r+10, color);
+      }
+    }
+  }
+}

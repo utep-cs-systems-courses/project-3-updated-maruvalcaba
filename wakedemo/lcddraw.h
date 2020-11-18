@@ -5,6 +5,9 @@
 #ifndef lcddraw_included
 #define lcddraw_included
 
+typedef unsigned int u_int;
+typedef unsigned char u_char;
+
 /** Draw single pixel at col, row 
  *
  *  \param col Column to draw to
@@ -85,6 +88,8 @@ void drawChar8x12(u_char col, u_char row, char c,
 
 
 void drawDiamond(u_char offc, u_char offr, u_int color);
+
+void drawHouse(u_char offc, u_char offr, u_int color, u_int color2);
 #endif // included
 
 

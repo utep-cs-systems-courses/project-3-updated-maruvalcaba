@@ -13,6 +13,7 @@ extern u_int fontFgColor;
 extern u_int fontFgColor2;
 extern int secCount;
 extern short redrawScreen;
+extern short redrawScreen2;
 
 extern const unsigned char font_5x7[96][5];
 extern const unsigned char font_8x12[95][12];
