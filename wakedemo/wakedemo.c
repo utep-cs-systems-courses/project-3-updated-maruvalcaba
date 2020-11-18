@@ -4,6 +4,7 @@
 #include "lcddraw.h"
 #include "stateMachines.h"
 #include "buzzer.h"
+#include "switches.h"
 
 #define LED_GREEN BIT6             // P1.6
 
@@ -45,7 +46,7 @@ void main()
   configureClocks();
   lcd_init();
   buzzer_init();
-  
+  switch_init();
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */
   
@@ -65,6 +66,7 @@ void main()
 	  drawString5x7(screenWidth/2-48, screenHeight/2-25,"Press S1 to load", fontFgColor, COLOR_BLACK);
 	  drawString5x7(screenWidth/2-45, screenHeight/2-10,"Press any other", fontFgColor, COLOR_BLACK);
 	  drawString5x7(screenWidth/2-27, screenHeight/2,"to reload", fontFgColor, COLOR_BLACK);
+	  drawHouse(screenWidth/2, screenHeight/2+15, fontFgColor, fontFgColor2);
 	}
 	break;
       }

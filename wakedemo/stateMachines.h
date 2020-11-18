@@ -7,12 +7,16 @@ extern int colorState;
 
 extern int substate;
 
+extern unsigned char rcolS;
+
 extern int x;               /* frequency */
 
 extern char blink_count2;   /* secondary blink count */
 extern char seconds;
 
 extern char blink_count;
+
+extern char *string;
 
 void color_advance();
 
