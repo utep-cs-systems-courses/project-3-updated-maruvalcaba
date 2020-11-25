@@ -4,7 +4,7 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 
-
+signed char y = 64;
 /** Draw single pixel at x,row 
  *
  *  \param col Column to draw to
@@ -194,4 +194,70 @@ void drawHouse(u_char offc, u_char offr, u_int color, u_int color2)
       }
     }
   }
+}
+
+void drawRight(u_int color)
+{
+  if(y < 0){
+    y += 128;
+  }
+  for(u_char r = 30; r<40; r++){
+    for(u_char c = 0; c<10; c++){
+      signed char s = y;
+      s+=c;
+      if(s < 0){
+	s+=128;
+	drawPixel(s,r,COLOR_BLACK);
+      }
+      drawPixel(y+c,r,COLOR_BLACK);
+    }
+  }
+  for(u_char r = 30; r<40; r++){
+    for(signed char c = 0; c<5; c++){
+      signed char s = y;
+      s+=c;
+      s-=5;
+      if(s < 0){
+	s+=128;
+	drawPixel(s,r,COLOR_WHITE);
+      }
+      drawPixel(y+c-5,r,COLOR_WHITE);
+    }
+  }
+  y+=5;
+}
+
+void drawLeft(u_int color)
+{
+  if(y < 0){
+    y += 128;
+  }
+  for(u_char r = 30; r<40; r++){
+    for(u_char c = 0; c<10; c++){
+      signed char s = y;
+      s+=c;
+      if(s < 0){
+	s+=128;
+	drawPixel(s,r,COLOR_BLACK);
+      }
+      else{
+	drawPixel(y+c,r,COLOR_BLACK);
+      }
+    }
+  }
+  for(u_char r = 30; r<40; r++){
+    for(signed char c = 0; c<5; c++){
+      signed char s = y;
+      s+=c;
+      s+=10;
+      if(s < 0){
+	s+=128;
+	drawPixel(s,r,COLOR_WHITE);
+      }
+      else{
+	drawPixel(y+c+10,r,COLOR_WHITE);
+      }
+    }
+  }
+  y-=5;
 }

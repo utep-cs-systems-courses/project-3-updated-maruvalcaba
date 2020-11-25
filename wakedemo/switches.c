@@ -38,6 +38,7 @@ switch_interrupt_handler()
     if((p2val & SW1) == 0){       /* if SW1 is the button pressed down */
       seconds = 0;                /* next few lines update variables */
       secCount = 0;
+      movestate = 3;
       clearScreen(COLOR_WHITE);
       master = 1;
       buzzer_set_period(0);
@@ -65,14 +66,14 @@ switch_interrupt_handler()
     else if((p2val & SW2) == 0){
       seconds = 0;                /* next few lines update variables */
       secCount = 0;
-      clearScreen(COLOR_WHITE);
+      movestate = 0;
       master = 1;
       buzzer_set_period(0);
     }
     else if((p2val & SW3) == 0){
       seconds = 0;                /* next few lines update variables */
       secCount = 0;
-      clearScreen(COLOR_WHITE);
+      movestate = 1;
       master = 1;
       buzzer_set_period(0);
     }

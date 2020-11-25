@@ -11,7 +11,9 @@ main()
 
   P1DIR |= RED_LED;
   for(;;) {
-    P1OUT = (1 & p2sw_read());
+    if(p2sw_read() & 0x0002)
+      P1OUT = 1;
+    P1OUT = 0;
   }
 }
 

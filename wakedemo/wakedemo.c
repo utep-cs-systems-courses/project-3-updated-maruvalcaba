@@ -23,7 +23,7 @@ void wdt_c_handler()
     if(secCount == 10){
       buzzer_set_period(0);
     }
-    if (secCount == 50 && seconds <= 7) {		/* once/sec */
+    if (secCount == 25 && seconds <= 7) {		/* once/sec */
       seconds++;
       secCount = 0;
       redrawScreen = 1;
@@ -35,6 +35,12 @@ void wdt_c_handler()
       color_advance();
     }
     break;
+  case 1:
+    secCount++;
+    if(secCount == 5){
+      redrawScreen = 1;
+      secCount = 0;
+    }
   }
 }
   
@@ -47,10 +53,12 @@ void main()
   lcd_init();
   buzzer_init();
   switch_init();
-  enableWDTInterrupts();      /**< enable periodic interrupt */
-  or_sr(0x8);	              /**< GIE (enable interrupts) */
   
   clearScreen(COLOR_BLACK);
+
+  enableWDTInterrupts();      /**< enable periodic interrupt */
+  or_sr(0x8);	              /**< GIE (enable interrupts) */ 
+  
   while (1) {			/* forever */
     if (redrawScreen) {
       switch(master){
@@ -69,6 +77,9 @@ void main()
 	  drawHouse(screenWidth/2, screenHeight/2+15, fontFgColor, fontFgColor2);
 	}
 	break;
+      case 1:
+	redrawScreen = 0;
+	motion_advance();
       }
     }
     P1OUT &= ~LED_GREEN;	/* green off */

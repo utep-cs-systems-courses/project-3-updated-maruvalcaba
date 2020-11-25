@@ -3,6 +3,8 @@
 
 extern int master;
 
+extern int movestate;
+
 extern int colorState;
 
 extern int substate;
@@ -21,6 +23,8 @@ extern char *string;
 void color_advance();
 
 void main_menu_advance();
+
+void motion_advance();
 
 void ambulance_advance(int stateA);
 #endif // included
