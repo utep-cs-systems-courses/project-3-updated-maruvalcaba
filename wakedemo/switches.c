@@ -41,7 +41,13 @@ switch_interrupt_handler()
       movestate = 3;
       clearScreen(COLOR_WHITE);
       master = 1;
+      redrawScreen = 1;
       buzzer_set_period(0);
+    }
+    else if((p2val & SW4) == 0){       /* if SW1 is the button pressed down */
+      seconds = 0;                /* next few lines update variables */
+      secCount = 0;
+      master = 2;
     }
     else{                         /* else, SW4 is being pressed down or null state */
       master = 0;                 /* next few lines update variables */
@@ -57,23 +63,25 @@ switch_interrupt_handler()
     break;
   case 1:
     if((p2val & SW1) == 0){       /* if SW1 is the button pressed down */
+      movestate = 3;
+      master = 1;
+      clearScreen(COLOR_WHITE);
       seconds = 0;                /* next few lines update variables */
       secCount = 0;
-      clearScreen(COLOR_WHITE);
-      master = 1;
+      redrawScreen = 1;
       buzzer_set_period(0);
     }
     else if((p2val & SW2) == 0){
       seconds = 0;                /* next few lines update variables */
       secCount = 0;
-      movestate = 0;
+      movestate = 1;
       master = 1;
       buzzer_set_period(0);
     }
     else if((p2val & SW3) == 0){
       seconds = 0;                /* next few lines update variables */
       secCount = 0;
-      movestate = 1;
+      movestate = 0;
       master = 1;
       buzzer_set_period(0);
     }
@@ -88,6 +96,17 @@ switch_interrupt_handler()
       clearScreen(COLOR_BLACK);
       rcolS = screenWidth/2-36;
     }
+    break;
+  case 2:
+    clearScreen(COLOR_BLACK);
+    master = 0;                 /* next few lines update variables */
+    secCount = 0;
+    seconds = 0;
+    char *mainString = "Welcome!";
+    string = mainString;
+    redrawScreen = 0;
+    redrawScreen2 = 1;
+    rcolS = screenWidth/2-36;
     break;
   }
   switch_state_changed = 1;

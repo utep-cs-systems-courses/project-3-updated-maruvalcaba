@@ -26,5 +26,34 @@ void main_menu_advance();
 
 void motion_advance();
 
+void red_off();
+
+void green_off();
+
+void both_on();
+
+void state_advance(char substateLed);
+
+char red_on_all();
+
+char toggle_red();
+
+char red_33();
+
+char red_66();
+
+char red_25();
+
+char green_on_all();
+
+char toggle_green();
+
+char green_33();
+
+char green_66();
+
+char green_25();
+
+
 void ambulance_advance(int stateA);
 #endif // included

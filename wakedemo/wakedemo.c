@@ -7,8 +7,9 @@
 #include "switches.h"
 
 #define LED_GREEN BIT6             // P1.6
+#define LED_RED BIT0
 
-
+char substateLed = 0;
 short redrawScreen = 0;
 short redrawScreen2 = 1;
 u_int fontFgColor = COLOR_RED;
@@ -37,17 +38,37 @@ void wdt_c_handler()
     break;
   case 1:
     secCount++;
-    if(secCount == 5){
-      redrawScreen = 1;
-      secCount = 0;
+    switch(movestate){
+    case 0:
+    case 1:
+      if(secCount == 5){
+	redrawScreen = 1;
+	secCount = 0;
+      }
+      break;
+    case 3:
+      break;
     }
+    break;
+  case 2:
+    seconds++;
+    if(seconds == 125){
+      seconds = 0;
+      substateLed++;
+    }
+    if(substateLed == 5){
+      substateLed = 0;
+    }
+    redrawScreen = 1;
+    break;
   }
 }
   
 
 void main()
 {
-  P1DIR |= LED_GREEN;		/**< Green led on when CPU on */		
+  P1DIR |= LED_GREEN;		/**< Green led on when CPU on */
+  P1DIR |= LED_RED;
   P1OUT |= LED_GREEN;
   configureClocks();
   lcd_init();
@@ -79,7 +100,23 @@ void main()
 	break;
       case 1:
 	redrawScreen = 0;
-	motion_advance();
+	switch(movestate){
+	case 0:
+	case 1:
+	  motion_advance();
+	  break;
+	case 3:
+	  drawString5x7(screenWidth/2-48, screenHeight/2-25,"Press S2 to move", COLOR_BLACK, COLOR_WHITE);
+	  drawString5x7(screenWidth/2-30, screenHeight/2-15,"to the left", COLOR_BLACK, COLOR_WHITE);
+	  drawString5x7(screenWidth/2-48, screenHeight/2,"Press S1 to move", COLOR_BLACK, COLOR_WHITE);
+	  drawString5x7(screenWidth/2-35, screenHeight/2+10,"to the right", COLOR_BLACK, COLOR_WHITE);
+	  break;
+	}
+	break;
+      case 2:
+	redrawScreen = 0;
+	state_advance(substateLed);
+	break;
       }
     }
     P1OUT &= ~LED_GREEN;	/* green off */
@@ -88,3 +125,4 @@ void main()
     P1OUT |= LED_GREEN;		/* green on */
   }
 }
+
