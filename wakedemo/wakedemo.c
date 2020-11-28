@@ -9,6 +9,7 @@
 #define LED_GREEN BIT6             // P1.6
 #define LED_RED BIT0
 
+short redrawScreen3 = 0;
 char substateLed = 0;
 short redrawScreen = 0;
 short redrawScreen2 = 1;
@@ -16,6 +17,7 @@ u_int fontFgColor = COLOR_RED;
 u_int fontFgColor2 = COLOR_WHITE;
 int secCount = 0;
 char seconds = 0;
+char state_changed = 0;
 void wdt_c_handler()
 {
   switch(master){
@@ -59,7 +61,9 @@ void wdt_c_handler()
     if(substateLed == 5){
       substateLed = 0;
     }
-    redrawScreen = 1;
+    and_sr(~0x8);	              /**< GIE (disable interrupts) */
+    state_changed = state_advance(substateLed);
+    or_sr(0x8);	              /**< GIE (enable interrupts) */
     break;
   }
 }
@@ -74,9 +78,9 @@ void main()
   lcd_init();
   buzzer_init();
   switch_init();
-  
-  clearScreen(COLOR_BLACK);
 
+  clearScreen(COLOR_BLACK);
+  
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */ 
   
@@ -85,7 +89,13 @@ void main()
       switch(master){
       case 0:
 	redrawScreen = 0;
-	if(redrawScreen2){
+	if(redrawScreen3){
+	  clearScreen(COLOR_BLACK);
+	  seconds = 1;
+	  secCount = 0;
+	  redrawScreen3 = 0;
+	}
+	else if(redrawScreen2){
 	  redrawScreen2 = 0;
 	  main_menu_advance();
 	}
@@ -93,9 +103,14 @@ void main()
 	  // drawDiamond(screenWidth/2, screenHeight/2-25, fontFgColor);
 	  drawString8x12(screenWidth/2-36, screenHeight/2-50,"Welcome!", fontFgColor, COLOR_BLACK);
 	  drawString5x7(screenWidth/2-48, screenHeight/2-25,"Press S1 to load", fontFgColor, COLOR_BLACK);
-	  drawString5x7(screenWidth/2-45, screenHeight/2-10,"Press any other", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-45, screenHeight/2-10,"Press S2 or S3", fontFgColor, COLOR_BLACK);
 	  drawString5x7(screenWidth/2-27, screenHeight/2,"to reload", fontFgColor, COLOR_BLACK);
-	  drawHouse(screenWidth/2, screenHeight/2+15, fontFgColor, fontFgColor2);
+
+	  drawString5x7(screenWidth/2-45, screenHeight/2+15,"Press S4 to load", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-32, screenHeight/2+25,"dimming demo", fontFgColor, COLOR_BLACK);
+	  
+	  drawHouse(screenWidth/2, screenHeight/2+50, fontFgColor, fontFgColor2);
+
 	}
 	break;
       case 1:
@@ -103,19 +118,19 @@ void main()
 	switch(movestate){
 	case 0:
 	case 1:
+	  and_sr(~0x8);
 	  motion_advance();
+	  or_sr(0x8);
 	  break;
 	case 3:
 	  drawString5x7(screenWidth/2-48, screenHeight/2-25,"Press S2 to move", COLOR_BLACK, COLOR_WHITE);
 	  drawString5x7(screenWidth/2-30, screenHeight/2-15,"to the left", COLOR_BLACK, COLOR_WHITE);
-	  drawString5x7(screenWidth/2-48, screenHeight/2,"Press S1 to move", COLOR_BLACK, COLOR_WHITE);
+	  drawString5x7(screenWidth/2-48, screenHeight/2,"Press S3 to move", COLOR_BLACK, COLOR_WHITE);
 	  drawString5x7(screenWidth/2-35, screenHeight/2+10,"to the right", COLOR_BLACK, COLOR_WHITE);
 	  break;
 	}
 	break;
-      case 2:
-	redrawScreen = 0;
-	state_advance(substateLed);
+      case 2:	
 	break;
       }
     }
