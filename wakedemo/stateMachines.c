@@ -36,6 +36,7 @@ void main_menu_advance()
 
 void motion_advance()
 {
+  buzzer_set_period(2000000/(x+y));
   switch(movestate){
   case 0:
     drawRight(COLOR_BLACK);
@@ -260,7 +261,7 @@ char green_25()		/* 25% brightness green */
   return 1;			  
 }
 
-void state_advance(char substateLed)   		   /* switch between different dimming modes */
+char state_advance(char substateLed)   		   /* switch between different dimming modes */
 {
   char led_changed = 0;
   switch(substateLed){
@@ -280,6 +281,7 @@ void state_advance(char substateLed)   		   /* switch between different dimming 
     led_changed = red_25();        /* 25% brightness red */
     break;
   }
+  return led_changed;
 }
 
 

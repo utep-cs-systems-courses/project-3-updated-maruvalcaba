@@ -32,7 +32,7 @@ void green_off();
 
 void both_on();
 
-void state_advance(char substateLed);
+char state_advance(char substateLed);
 
 char red_on_all();
 
