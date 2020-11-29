@@ -11,33 +11,33 @@ jt:
 	
 	.global state_advance
 state_advance:
-	sub #2, r1
+	sub #2, r1		;make room for local var
 	mov.b #0, 0(r1)		;char led_changed = 0
-	cmp.b #5, r12
-	jhs done
-	add.b r12, r12
-	mov jt(r12), r0
+	cmp.b #5, r12           ;check if selector is inbounds
+	jhs done		;if not, then done
+	add.b r12, r12		;selector*2
+	mov jt(r12), r0		;use jump table
 
-case0:	call #red_on_all
-	mov.b r12, 0(r1)
+case0:	call #red_on_all	;call 100% brightness
+	mov.b r12, 0(r1)	;mov return value into led_changed
 	jmp done
 
-case1:	call #red_66
-	mov.b r12, 0(r1)
+case1:	call #red_66		;call 66% brightness
+	mov.b r12, 0(r1)	;mov return value into led_changed
+	jmp done		
+
+case2:	call #toggle_red	;call 50% brightness
+	mov.b r12, 0(r1)	;mov return value into led_changed
 	jmp done
 
-case2:	call #toggle_red
-	mov.b r12, 0(r1)
+case3:	call #red_33		;call 33% brightness
+	mov.b r12, 0(r1)	;mov the return value into led_changed
 	jmp done
 
-case3:	call #red_33
-	mov.b r12, 0(r1)
+case4:	call #red_25		;call 25% brightness
+	mov.b r12, 0(r1)	;mov return value into led_changed
 	jmp done
 
-case4:	call #red_25
-	mov.b r12, 0(r1)
-	jmp done
-
-done:	mov.b 0(r1), r12
-	add #2, r1
-	pop r0
+done:	mov.b 0(r1), r12	;mov led_changed to be returned
+	add #2, r1		;reset stack
+	pop r0			;return
