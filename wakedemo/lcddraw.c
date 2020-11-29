@@ -115,8 +115,8 @@ void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
   fillRectangle(colMin + width, rowMin, 1, height, colorBGR);
 }
 
-/** 5x7 font - this function draws background pixels
- *  Adapted from RobG's EduKit
+/** 8x12 font - this function draws background pixels
+ *  
  */
 void drawChar8x12(u_char rcol, u_char rrow, char c, 
      u_int fgColorBGR, u_int bgColorBGR) 
@@ -141,10 +141,7 @@ void drawChar8x12(u_char rcol, u_char rrow, char c,
 }
 
 /** Draw string at col,row
- *  Type:
- *  FONT_SM - small (5x8,) FONT_MD - medium (8x12,) FONT_LG - large (11x16)
- *  FONT_SM_BKG, FONT_MD_BKG, FONT_LG_BKG - as above, but with background color
- *  Adapted from RobG's EduKit
+ *  Type: 8x12 font
  *
  *  \param col Column to start drawing string
  *  \param row Row to start drawing string
@@ -174,21 +171,21 @@ void drawDiamond(u_char offc, u_char offr, u_int color)
   }
 }
 
-void drawHouse(u_char offc, u_char offr, u_int color, u_int color2)
+void drawHouse(u_char offc, u_char offr, u_int color, u_int color2) /* draws a house */
 {
-  for(u_char r = 0; r < 10; r++){
+  for(u_char r = 0; r < 10; r++){                                /* this draws the roof */
     for(u_char c = 0; c <= r; c++){            
       drawPixel(offc-c, offr+r, color);
       drawPixel(offc+c, offr+r, color);
     }
   }
-  for(u_char r = 0; r < 10; r++){
+  for(u_char r = 0; r < 10; r++){                                /* this draws the house */
     for(u_char c = 0; c < 7; c++){
       if(c <= 2 && r >= 6){
-	drawPixel(offc-c, offr+r+10, color2);
+	drawPixel(offc-c, offr+r+10, color2);                    /* if there should be a door */
 	drawPixel(offc+c, offr+r+10, color2);
       }
-      else{
+      else{                                                      /* else, make it like the rest */
 	drawPixel(offc-c, offr+r+10, color);
 	drawPixel(offc+c, offr+r+10, color);
       }
@@ -197,75 +194,75 @@ void drawHouse(u_char offc, u_char offr, u_int color, u_int color2)
 }
 
 
-void drawRight();
+void drawRight();                        /* function is written in assembly insife drawRight.s */
 /*
 void drawRight()
 {
-  if(y < 0){
-    y += 128;
+  if(y < 0){                             /* checks if y is out of bounds
+    y += 128;                            /* if so, move it to the correct position inbounds
   }
-  for(u_char r = 30; r<40; r++){
+  for(u_char r = 30; r<40; r++){         /* these 2 loops make the main black box
     for(u_char c = 0; c<10; c++){
       signed char s = y;
       s+=c;
-      if(s < 0){
-	s+=128;
+      if(s < 0){                         /* if new pixel position is out of bounds
+	s+=128;                          /* then move it to a correct position inbounds
 	drawPixel(s,r,COLOR_BLACK);
       }
-      else{
+      else{                              /* otherwise, was already inbounds
 	drawPixel(y+c,r,COLOR_BLACK);
       }
     }
   }
-  for(u_char r = 30; r<40; r++){
+  for(u_char r = 30; r<40; r++){         /* this erases the previous position of the box
     for(signed char c = 0; c<5; c++){
       signed char s = y;
       s+=c;
       s-=5;
-      if(s < 0){
-	s+=128;
+      if(s < 0){                         /* if the new pixel position is out of bounds
+	s+=128;                          /* then move it the a correct position inbounds
 	drawPixel(s,r,COLOR_WHITE);
       }
-      else{
+      else{                              /* otherwise, was already inbounds
 	drawPixel(y+c-5,r,COLOR_WHITE);
       }
     }
   }
-  y+=5;
+  y+=5;                                  /* move y to the right 5 pixels
 }
 */
 
-void drawLeft()
+void drawLeft()                         /* this function draws a square moving to the left */
 {
-  if(y < 0){
-    y += 128;
+  if(y < 0){                            /* checks if y is negative/out of bounds */
+    y += 128;                           /* if so, changes y to the correct value inbounds */
   }
-  for(u_char r = 30; r<40; r++){
-    for(u_char c = 0; c<10; c++){
+  for(u_char r = 30; r<40; r++){        /* This draws the main black box */
+    for(u_char c = 0; c<10; c++){      
       signed char s = y;
       s+=c;
-      if(s < 0){
-	s+=128;
+      if(s < 0){                        /* This checks if the position of the next pixel to be drawn is out of bounds */
+	s+=128;                         /* if so, then it changes it to the correct position inbounds */
 	drawPixel(s,r,COLOR_BLACK);
       }
-      else{
+      else{                             /* else it was already inbounds */
 	drawPixel(y+c,r,COLOR_BLACK);
       }
     }
   }
-  for(u_char r = 30; r<40; r++){
-    for(signed char c = 0; c<5; c++){
+  for(u_char r = 30; r<40; r++){        /* this erases the previous position of the box without erasing the new box */
+    for(signed char c = 0; c<5; c++){   
       signed char s = y;
       s+=c;
       s+=10;
-      if(s < 0){
-	s+=128;
+      if(s < 0){                        /* checks if new pixel is out of bounds */
+	s+=128;                         /* if so, move it to the proper position inbounds */
 	drawPixel(s,r,COLOR_WHITE);
       }
-      else{
+      else{                             /* else, was already inbounds */
 	drawPixel(y+c+10,r,COLOR_WHITE);
       }
     }
   }
-  y-=5;
+  y-=5;                                 /* move y to the left 5 pixels */
 }
