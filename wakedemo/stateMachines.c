@@ -39,10 +39,10 @@ void motion_advance()
   buzzer_set_period(2000000/(x+y));
   switch(movestate){
   case 0:
-    drawRight(COLOR_BLACK);
+    drawRight();
     break;
   case 1:
-    drawLeft(COLOR_BLACK);
+    drawLeft();
     break;
   default:
     break;

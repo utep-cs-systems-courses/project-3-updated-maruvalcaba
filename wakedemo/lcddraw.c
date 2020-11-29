@@ -196,7 +196,10 @@ void drawHouse(u_char offc, u_char offr, u_int color, u_int color2)
   }
 }
 
-void drawRight(u_int color)
+
+void drawRight();
+/*
+void drawRight()
 {
   if(y < 0){
     y += 128;
@@ -209,7 +212,9 @@ void drawRight(u_int color)
 	s+=128;
 	drawPixel(s,r,COLOR_BLACK);
       }
-      drawPixel(y+c,r,COLOR_BLACK);
+      else{
+	drawPixel(y+c,r,COLOR_BLACK);
+      }
     }
   }
   for(u_char r = 30; r<40; r++){
@@ -221,13 +226,16 @@ void drawRight(u_int color)
 	s+=128;
 	drawPixel(s,r,COLOR_WHITE);
       }
-      drawPixel(y+c-5,r,COLOR_WHITE);
+      else{
+	drawPixel(y+c-5,r,COLOR_WHITE);
+      }
     }
   }
   y+=5;
 }
+*/
 
-void drawLeft(u_int color)
+void drawLeft()
 {
   if(y < 0){
     y += 128;

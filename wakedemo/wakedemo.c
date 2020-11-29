@@ -123,6 +123,12 @@ void main()
 	  or_sr(0x8);
 	  break;
 	case 3:
+	  if(redrawScreen3){
+	    clearScreen(COLOR_WHITE);
+	    seconds = 0;
+	    secCount = 0;
+	    redrawScreen3 = 0;
+	  }
 	  drawString5x7(screenWidth/2-48, screenHeight/2-25,"Press S2 to move", COLOR_BLACK, COLOR_WHITE);
 	  drawString5x7(screenWidth/2-30, screenHeight/2-15,"to the left", COLOR_BLACK, COLOR_WHITE);
 	  drawString5x7(screenWidth/2-48, screenHeight/2,"Press S3 to move", COLOR_BLACK, COLOR_WHITE);
