@@ -66,7 +66,7 @@ skip3:
 	call #drawPixel
 endloop4:
 	add.b #1, 2(r1)		;c++
-	cmp #5, 2(r1)		;c-5
+	cmp.b #5, 2(r1)		;c-5
 	jlo loop4
 	add.b #1, 0(r1)		;r++
 	cmp.b #40, 0(r1)	;r-40
