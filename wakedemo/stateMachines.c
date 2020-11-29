@@ -13,20 +13,20 @@ int master = 0;                 /* master state set automatically to 0 */
 int substate = 0;               /* substate set automatically to 0 */
 int x = 500;                    /* x set to 0 */
 char *string = "Welcome!";
-int colorState = 0;
-int movestate = 0;
+int colorState = 0;             /* state of the color */
+int movestate = 0;              /* state of the movement */
 
-void color_advance()   		   /* switch between different dimming modes */
+void color_advance()   		   /* switch between different color modes */
 {
   switch(colorState){
   case 0:
-    fontFgColor2 = (fontFgColor == COLOR_RED) ? COLOR_RED : COLOR_WHITE;
+    fontFgColor2 = (fontFgColor == COLOR_RED) ? COLOR_RED : COLOR_WHITE;  /* updates both colors */
     fontFgColor = (fontFgColor == COLOR_RED) ? COLOR_WHITE : COLOR_RED;
     buzzer_set_period(0);
   }
 }
 
-void main_menu_advance()
+void main_menu_advance()           /* runs the typewriter part of the main menu */
 {
   buzzer_set_period(2000000/500);
   u_char rrowS = screenHeight/2-50;
@@ -34,10 +34,10 @@ void main_menu_advance()
   rcolS+=9;
 }
 
-void motion_advance()
+void motion_advance()                /* operates the movement of the box */
 {
-  buzzer_set_period(2000000/(x+y));
-  switch(movestate){
+  buzzer_set_period(2000000/(x+y));  /* sound depends on position */
+  switch(movestate){                 /* switch chooses direction */
   case 0:
     drawRight();
     break;
@@ -50,17 +50,17 @@ void motion_advance()
 }
 
 /*
-void ambulance_advance(int stateA)
+void ambulance_advance(int stateA)      /* extra state machine not being used
 {
   switch(stateA){
   case 0:
-    buzzer_set_period(2000000/2500);  /* set buzzer 
+    buzzer_set_period(2000000/2500);    /* set buzzer 
       green_on_all();                   /* 2 lines set lights 
       red_off();
       break;
   case 1:
-    buzzer_set_period(2000000/500);    set buzzer 
-      red_on_all();                      set leds
+    buzzer_set_period(2000000/500);     /* set buzzer 
+      red_on_all();                     /* set leds
       green_off();
       break;
   }
@@ -261,7 +261,7 @@ char green_25()		/* 25% brightness green */
   return 1;			  
 }
 
-char state_advance(char substateLed);
+char state_advance(char substateLed);              /* function written in assembly in state_advance.s */
 
 /*
 char state_advance(char substateLed)   		   /* switch between different dimming modes
