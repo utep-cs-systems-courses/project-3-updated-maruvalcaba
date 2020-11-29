@@ -38,7 +38,7 @@ switch_interrupt_handler()
   case 0:
     if((p2val & SW1) == 0){       /* if SW1 is the button pressed down */
       seconds = 0;                /* next few lines update variables */
-      secCount = 0;
+      secCount = 0;               /* need to reset secCount */
       movestate = 3;
       master = 1;
       redrawScreen = 1;
@@ -50,7 +50,7 @@ switch_interrupt_handler()
       secCount = 0;
       redrawScreen = 0;
       redrawScreen2 = 0;
-      master = 2;
+      master = 2;                 /* updated the master state */
     }
     else if ((p2val & SW2) == 0 || (p2val & SW3) == 0){                         /* else, SW4 is being pressed down or null state */
       master = 0;                 /* next few lines update variables */
@@ -102,7 +102,7 @@ switch_interrupt_handler()
       master = 0;                 /* next few lines update variables */
       secCount = 0;
       seconds = 8;
-      P1OUT &= ~RED_LED;
+      P1OUT &= ~RED_LED;          /* i believe the code breaks if this stays on */
       string = "Welcome!";
       redrawScreen = 0;
       redrawScreen2 = 0;

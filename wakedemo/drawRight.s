@@ -34,10 +34,10 @@ skip2:
 
 endloop2:
 	add.b #1, 2(r1)		;c++
-	cmp.b #10, 2(r1)		;c-10
+	cmp.b #10, 2(r1)	;c-10
 	jlo loop2 
 	add.b #1, 0(r1)		;r++
-	cmp.b #40, 0(r1)		;r-40
+	cmp.b #40, 0(r1)	;r-40
 	jhs endloop1
 	jmp loop1
 
@@ -74,5 +74,5 @@ endloop4:
 	jmp loop3
 endloop3:
 	add.b #5, &y		;y+=5
-	add #6, r1
-	pop r0
+	add #6, r1		;reset the stack
+	pop r0			;return

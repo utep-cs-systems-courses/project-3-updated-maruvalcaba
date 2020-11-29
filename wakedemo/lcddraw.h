@@ -68,10 +68,7 @@ void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
 
 
 /** Draw string at col,row
- *  Type:
- *  FONT_SM - small (5x8,) FONT_MD - medium (8x12,) FONT_LG - large (11x16)
- *  FONT_SM_BKG, FONT_MD_BKG, FONT_LG_BKG - as above, but with background color
- *  Adapted from RobG's EduKit
+ *  Type: 8x12 Font
  *
  *  \param col Column to start drawing string
  *  \param row Row to start drawing string
@@ -82,19 +79,28 @@ void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
 void drawString8x12(u_char col, u_char row, char *string, 
 		   u_int fgColorBGR, u_int bgColorBGR);
 
-/** 5x7 font - this function draws background pixels
- *  Adapted from RobG's EduKit
+/** 8x12 font - this function draws background pixels
  */
 void drawChar8x12(u_char col, u_char row, char c, 
 		 u_int fgColorBGR, u_int bgColorBGR);
 
-
+/* This function draws a diamond.
+ */
 void drawDiamond(u_char offc, u_char offr, u_int color);
 
+/*
+  this function draws a box that moves to the right
+ */
 void drawRight();
 
+/*
+  this function draws a box that moves to the left
+ */
 void drawLeft();
 
+/*
+  this function draws a small house.
+ */
 void drawHouse(u_char offc, u_char offr, u_int color, u_int color2);
 #endif // included
 
