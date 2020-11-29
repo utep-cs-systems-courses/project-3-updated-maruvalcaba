@@ -9,15 +9,15 @@
 #define LED_GREEN BIT6             // P1.6
 #define LED_RED BIT0
 
-short redrawScreen3 = 0;
-char substateLed = 0;
-short redrawScreen = 0;
-short redrawScreen2 = 1;
-u_int fontFgColor = COLOR_RED;
+short redrawScreen3 = 0;          /* needed for special actions */
+char substateLed = 0;             /* this is the substate for the led */
+short redrawScreen = 0;           /* true if anything needs to be redrawn */
+short redrawScreen2 = 1;          /* true for the typewriter section */
+u_int fontFgColor = COLOR_RED;    /* these are the 2 font colors */
 u_int fontFgColor2 = COLOR_WHITE;
-int secCount = 0;
-char seconds = 0;
-char state_changed = 0;
+int secCount = 0;                 /* keeps track of time */
+char seconds = 0;                 /* keeps track of number of times an interval passed */
+char state_changed = 0;           /* true if a state has changed with the led */
 void wdt_c_handler()
 {
   switch(master){
@@ -26,24 +26,24 @@ void wdt_c_handler()
     if(secCount == 10){
       buzzer_set_period(0);
     }
-    if (secCount == 25 && seconds <= 7) {		/* once/sec */
+    if (secCount == 25 && seconds <= 7) {		/* 10 times/sec, while seconds < 8 */
       seconds++;
       secCount = 0;
       redrawScreen = 1;
       redrawScreen2 = 1;
     }
-    if(secCount == 250 && seconds > 7){
+    if(secCount == 250 && seconds > 7){                 /* once/sec after typewriter */
       secCount = 0;
       redrawScreen = 1;
-      color_advance();
+      color_advance();                                  /* advance color */
     }
     break;
   case 1:
     secCount++;
-    switch(movestate){
+    switch(movestate){                                  /* different behavior based on movestate */
     case 0:
     case 1:
-      if(secCount == 5){
+      if(secCount == 5){                                /* every 5 counts it moves more */
 	redrawScreen = 1;
 	secCount = 0;
       }
@@ -61,8 +61,8 @@ void wdt_c_handler()
     if(substateLed == 5){
       substateLed = 0;
     }
-    and_sr(~0x8);	              /**< GIE (disable interrupts) */
-    state_changed = state_advance(substateLed);
+    and_sr(~0x8);	      /**< GIE (disable interrupts) */
+    state_changed = state_advance(substateLed); /* i just dont want this interrupted */
     or_sr(0x8);	              /**< GIE (enable interrupts) */
     break;
   }
@@ -89,18 +89,17 @@ void main()
       switch(master){
       case 0:
 	redrawScreen = 0;
-	if(redrawScreen3){
-	  clearScreen(COLOR_BLACK);
+	if(redrawScreen3){           /* only redraws the entire screen once */
+	  clearScreen(COLOR_BLACK); 
 	  seconds = 1;
 	  secCount = 0;
 	  redrawScreen3 = 0;
 	}
-	else if(redrawScreen2){
+	else if(redrawScreen2){     /* then it does the typewriter */
 	  redrawScreen2 = 0;
 	  main_menu_advance();
 	}
-	else{
-	  // drawDiamond(screenWidth/2, screenHeight/2-25, fontFgColor);
+	else{                       /* then it draws the main text that flips colors */
 	  drawString8x12(screenWidth/2-36, screenHeight/2-50,"Welcome!", fontFgColor, COLOR_BLACK);
 	  drawString5x7(screenWidth/2-48, screenHeight/2-25,"Press S1 to load", fontFgColor, COLOR_BLACK);
 	  drawString5x7(screenWidth/2-45, screenHeight/2-10,"Press S2 or S3", fontFgColor, COLOR_BLACK);
@@ -109,21 +108,21 @@ void main()
 	  drawString5x7(screenWidth/2-45, screenHeight/2+15,"Press S4 to load", fontFgColor, COLOR_BLACK);
 	  drawString5x7(screenWidth/2-32, screenHeight/2+25,"dimming demo", fontFgColor, COLOR_BLACK);
 	  
-	  drawHouse(screenWidth/2, screenHeight/2+50, fontFgColor, fontFgColor2);
+	  drawHouse(screenWidth/2, screenHeight/2+50, fontFgColor, fontFgColor2); /* draws the house */
 
 	}
 	break;
       case 1:
 	redrawScreen = 0;
-	switch(movestate){
+	switch(movestate){                  /* different behavior based on movestate */
 	case 0:
 	case 1:
-	  and_sr(~0x8);
-	  motion_advance();
-	  or_sr(0x8);
+	  and_sr(~0x8);                     /* I dont want this getting interrupted */
+	  motion_advance();                 /* advances the square */
+	  or_sr(0x8);                       /* re-enable interrupts now */
 	  break;
 	case 3:
-	  if(redrawScreen3){
+	  if(redrawScreen3){                /* only draws this once, then waits until button press */
 	    clearScreen(COLOR_WHITE);
 	    seconds = 0;
 	    secCount = 0;
