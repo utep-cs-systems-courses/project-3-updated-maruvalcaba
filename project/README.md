@@ -1,7 +1,7 @@
 ## Description
 This program utilizes the 4 buttons on the green board, SW1 - SW4, to switch
 between different states of the toy. The different states may also have their
-own functionality with the buttons. Pressing the different buttons will have
+own functionalities with the buttons. Pressing the different buttons will have
 a different toy function be enabled.
 
 ## How to use
@@ -18,27 +18,38 @@ fashion and then wait for input.
 outcomes.
 
 ## While on the Main Menu
+
 - Pressing SW1 will move you to the loaded 'game', which will display some
-instructions and wait for input.
+  instructions and wait for input.
 
-- Pressing SW2 and SW3 will reload the Main Menu.
+- Pressing SW2 will reload the Main Menu.
 
-- Pressing SW4 will take the toy to the dimming demo as requested by Ricardo.
+- Pressing SW3 will do an ambulance demo with flashing LED.
 
-## While on the 'game'
-- Pressing SW1 will move you to the loaded 'game' again, reloading the white
-screen waiting for input again.
+- Pressing SW4 will take the toy to a dimming demo as requested by Ricardo.
 
-- Pressing SW2 will move the box to the left with sound based on position.
+## While on the 'Game'
 
-- Pressing SW3 will move the box to the right with sound based on position.
+- Pressing SW1 will move you to the loaded 'game', which will display some
+  instructions and wait for input. Essentially, reloading.
 
-- Pressing SW4 will go back to the Main Menu
+- Pressing SW2 will move a box to the left with sound based on position.
 
-## While on the buzzer demo
+- Pressing SW3 will move a box to the right with sound based on position.
+
+- Pressing SW4 will take the toy to the Main Menu.
+
+## While on the Ambulance
+
+- Pressing SW4 will take you back to the Main Menu.
+
+- Pressing any other button will have no effect in this state.
+
+## While on the Dimming Demo
+
 - Pressing SW3 will take you back to the Main Menu.
 
-- Pressing anything else will have no effect in this state.
+- Pressing any other button will have no effect in this state.
 
 ## To clean up
 

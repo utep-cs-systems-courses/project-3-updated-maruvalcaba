@@ -36,7 +36,7 @@ switch_interrupt_handler()
   char p2val = switch_update_interrupt_sense();
   switch(master){
   case 0:
-    if((p2val & SW1) == 0){       /* if SW1 is the button pressed down */
+    if((p2val & SW1) == 0){       /* Load Game */
       seconds = 0;                /* next few lines update variables */
       secCount = 0;               /* need to reset secCount */
       movestate = 3;
@@ -45,14 +45,21 @@ switch_interrupt_handler()
       redrawScreen3 = 1;
       buzzer_set_period(0);
     }
-    else if((p2val & SW4) == 0){       /* if SW1 is the button pressed down */
+    else if((p2val & SW4) == 0){  /* Load dimming demo */
       seconds = 0;                /* next few lines update variables */
       secCount = 0;
       redrawScreen = 0;
       redrawScreen2 = 0;
       master = 2;                 /* updated the master state */
     }
-    else if ((p2val & SW2) == 0 || (p2val & SW3) == 0){                         /* else, SW4 is being pressed down or null state */
+    else if((p2val & SW3) == 0){  /* load ambulance */
+      seconds = 0;                /* next few lines update variables */
+      secCount = 0;
+      redrawScreen = 0;
+      redrawScreen2 = 0;
+      master = 4;                 /* updated the master state */
+    }
+    else if ((p2val & SW2) == 0){ /* reload Main Menu */
       master = 0;                 /* next few lines update variables */
       secCount = 0;
       seconds = 0;
@@ -63,7 +70,7 @@ switch_interrupt_handler()
     }
     break;
   case 1:
-    if((p2val & SW1) == 0){       /* if SW1 is the button pressed down */
+    if((p2val & SW1) == 0){       /* load game */
       movestate = 3;
       master = 1;
       seconds = 0;                /* next few lines update variables */
@@ -72,21 +79,21 @@ switch_interrupt_handler()
       redrawScreen3 = 1;
       buzzer_set_period(0);
     }
-    else if((p2val & SW2) == 0){
+    else if((p2val & SW2) == 0){  /* move to the left */
       seconds = 0;                /* next few lines update variables */
       secCount = 0;
       movestate = 1;
       master = 1;
       buzzer_set_period(0);
     }
-    else if((p2val & SW3) == 0){
+    else if((p2val & SW3) == 0){  /* move to the right */
       seconds = 0;                /* next few lines update variables */
       secCount = 0;
       movestate = 0;
       master = 1;
       buzzer_set_period(0);
     }
-    else if ((p2val & SW4) == 0){                         /* else, SW4 is being pressed down or null state */
+    else if ((p2val & SW4) == 0){ /* Back to Main Menu */
       master = 0;                 /* next few lines update variables */
       secCount = 0;
       seconds = 0;
@@ -98,7 +105,19 @@ switch_interrupt_handler()
     }
     break;
   case 2:
-    if((p2val & SW3) == 0){
+    if((p2val & SW3) == 0){       /* back to Main Menu */
+      master = 0;                 /* next few lines update variables */
+      secCount = 0;
+      seconds = 8;
+      P1OUT &= ~RED_LED;          /* i believe the code breaks if this stays on */
+      string = "Welcome!";
+      redrawScreen = 0;
+      redrawScreen2 = 0;
+      rcolS = screenWidth/2-36;
+    }
+    break;
+  case 4:
+    if((p2val & SW4) == 0){       /* Back to Main Menu */
       master = 0;                 /* next few lines update variables */
       secCount = 0;
       seconds = 8;

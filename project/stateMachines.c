@@ -49,23 +49,21 @@ void motion_advance()                /* operates the movement of the box */
   }
 }
 
-/*
-void ambulance_advance(int stateA)      /* extra state machine not being used
+
+void ambulance_advance(int stateA)      /* extra state machine not being used */
 {
   switch(stateA){
   case 0:
-    buzzer_set_period(2000000/2500);    /* set buzzer 
-      green_on_all();                   /* 2 lines set lights 
-      red_off();
-      break;
+    buzzer_set_period(2000000/2500);    /* set buzzer */
+    red_on_all();                   /* 2 lines set lights */
+    break;
   case 1:
-    buzzer_set_period(2000000/500);     /* set buzzer 
-      red_on_all();                     /* set leds
-      green_off();
-      break;
+    buzzer_set_period(2000000/500);     /* set buzzer */
+    red_off();                     /* set leds */
+    break;
   }
 }
-*/
+
 
 void red_off()                  /* red light off*/
 {

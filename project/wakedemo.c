@@ -10,6 +10,7 @@
 #define LED_RED BIT0
 
 short redrawScreen3 = 0;          /* needed for special actions */
+char substateLed2 = 0;
 char substateLed = 0;             /* this is the substate for the led */
 short redrawScreen = 0;           /* true if anything needs to be redrawn */
 short redrawScreen2 = 1;          /* true for the typewriter section */
@@ -61,9 +62,22 @@ void wdt_c_handler()
     if(substateLed == 5){
       substateLed = 0;
     }
-    and_sr(~0x8);	      /**< GIE (disable interrupts) */
+    and_sr(~0x8);	      /* GIE disable interrupts */
     state_changed = state_advance(substateLed); /* i just dont want this interrupted */
-    or_sr(0x8);	              /**< GIE (enable interrupts) */
+    or_sr(0x8);	              /* GIE enable interrupts */
+    break;
+  case 4:
+    seconds++;
+    if(seconds == 125){
+      seconds = 0;
+      substateLed2++;
+    }
+    if(substateLed2 == 2){
+      substateLed2 = 0;
+    }
+    and_sr(~0x8);            /* GIE disable interrupts */
+    ambulance_advance(substateLed2);  /* I just don't want this interrupted */
+    or_sr(0x8);              /* GIE enable interrupts */
     break;
   }
 }
@@ -101,14 +115,16 @@ void main()
 	}
 	else{                       /* then it draws the main text that flips colors */
 	  drawString8x12(screenWidth/2-36, screenHeight/2-50,"Welcome!", fontFgColor, COLOR_BLACK);
-	  drawString5x7(screenWidth/2-48, screenHeight/2-25,"Press S1 to load", fontFgColor, COLOR_BLACK);
-	  drawString5x7(screenWidth/2-45, screenHeight/2-10,"Press S2 or S3", fontFgColor, COLOR_BLACK);
-	  drawString5x7(screenWidth/2-27, screenHeight/2,"to reload", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-48, screenHeight/2-35,"Press S1 to load", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-45, screenHeight/2-20,"Press S2 or S3", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-27, screenHeight/2-10,"to reload", fontFgColor, COLOR_BLACK);
 
-	  drawString5x7(screenWidth/2-45, screenHeight/2+15,"Press S4 to load", fontFgColor, COLOR_BLACK);
-	  drawString5x7(screenWidth/2-32, screenHeight/2+25,"dimming demo", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-45, screenHeight/2+5,"Press S3 to load", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-30, screenHeight/2+15,"ambulance", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-45, screenHeight/2+30,"Press S4 to load", fontFgColor, COLOR_BLACK);
+	  drawString5x7(screenWidth/2-32, screenHeight/2+40,"dimming demo", fontFgColor, COLOR_BLACK);
 	  
-	  draw_house(screenWidth/2, screenHeight/2+50, fontFgColor, fontFgColor2); /* draws the house */
+	  draw_house(screenWidth/2, screenHeight/2+55, fontFgColor, fontFgColor2); /* draws the house */
 
 	}
 	break;
