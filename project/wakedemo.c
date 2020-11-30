@@ -108,7 +108,7 @@ void main()
 	  drawString5x7(screenWidth/2-45, screenHeight/2+15,"Press S4 to load", fontFgColor, COLOR_BLACK);
 	  drawString5x7(screenWidth/2-32, screenHeight/2+25,"dimming demo", fontFgColor, COLOR_BLACK);
 	  
-	  drawHouse(screenWidth/2, screenHeight/2+50, fontFgColor, fontFgColor2); /* draws the house */
+	  draw_house(screenWidth/2, screenHeight/2+50, fontFgColor, fontFgColor2); /* draws the house */
 
 	}
 	break;

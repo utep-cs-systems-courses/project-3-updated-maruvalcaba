@@ -171,7 +171,7 @@ void drawDiamond(u_char offc, u_char offr, u_int color)
   }
 }
 
-void drawHouse(u_char offc, u_char offr, u_int color, u_int color2) /* draws a house */
+void draw_house(u_char offc, u_char offr, u_int color, u_int color2) /* draws a house */
 {
   for(u_char r = 0; r < 10; r++){                                /* this draws the roof */
     for(u_char c = 0; c <= r; c++){            
@@ -194,7 +194,7 @@ void drawHouse(u_char offc, u_char offr, u_int color, u_int color2) /* draws a h
 }
 
 
-void drawRight();                        /* function is written in assembly insife drawRight.s */
+void draw_right();                        /* function is written in assembly insife drawRight.s */
 /*
 void drawRight()
 {
@@ -232,7 +232,7 @@ void drawRight()
 }
 */
 
-void drawLeft()                         /* this function draws a square moving to the left */
+void draw_left()                         /* this function draws a square moving to the left */
 {
   if(y < 0){                            /* checks if y is negative/out of bounds */
     y += 128;                           /* if so, changes y to the correct value inbounds */

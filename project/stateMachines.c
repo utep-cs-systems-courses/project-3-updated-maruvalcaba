@@ -39,10 +39,10 @@ void motion_advance()                /* operates the movement of the box */
   buzzer_set_period(2000000/(x+y));  /* sound depends on position */
   switch(movestate){                 /* switch chooses direction */
   case 0:
-    drawRight();
+    draw_right();
     break;
   case 1:
-    drawLeft();
+    draw_left();
     break;
   default:
     break;

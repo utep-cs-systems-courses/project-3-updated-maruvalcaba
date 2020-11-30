@@ -91,17 +91,17 @@ void drawDiamond(u_char offc, u_char offr, u_int color);
 /*
   this function draws a box that moves to the right
  */
-void drawRight();
+void draw_right();
 
 /*
   this function draws a box that moves to the left
  */
-void drawLeft();
+void draw_left();
 
 /*
   this function draws a small house.
  */
-void drawHouse(u_char offc, u_char offr, u_int color, u_int color2);
+void draw_house(u_char offc, u_char offr, u_int color, u_int color2);
 #endif // included
 
 

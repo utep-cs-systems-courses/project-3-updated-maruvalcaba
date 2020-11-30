@@ -3,8 +3,8 @@
 	.text
 
 	.extern y
-	.global drawRight
-drawRight:
+	.global draw_right
+draw_right:
 	sub #6, r1		;make room for local vars
 	cmp.b #0,&y		;y-0
 	jge skip		;if(y >= 0), skip
