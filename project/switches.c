@@ -1,9 +1,9 @@
 #include <msp430.h>
 #include "switches.h"
 #include "stateMachines.h"
-#include "lcddraw.h"
-#include "lcdutils.h"
 #include "buzzer.h"
+#include "main.h"
+#include "lcdutils.h"
 
 #define RED_LED BIT0;
 
@@ -98,9 +98,8 @@ switch_interrupt_handler()
       secCount = 0;
       seconds = 0;
       string = "Welcome!";
-      redrawScreen = 0;
-      redrawScreen2 = 1;
-      clearScreen(COLOR_BLACK);
+      redrawScreen = 1;
+      redrawScreen3 = 1;
       rcolS = screenWidth/2-36;
     }
     break;

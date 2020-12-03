@@ -1,9 +1,10 @@
-
 #include <msp430.h>
 #include "stateMachines.h"
 #include "lcdutils.h"
 #include "buzzer.h"
 #include "lcddraw.h"
+#include "main.h"
+#include "drawFunctions.h"
 
 #define LED_GREEN BIT6
 #define LED_RED BIT0

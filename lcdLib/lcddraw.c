@@ -1,6 +1,7 @@
 /** \file lcddraw.c
  *  \brief Adapted from RobG's EduKit
  */
+#include <msp430.h>
 #include "lcdutils.h"
 #include "lcddraw.h"
 
