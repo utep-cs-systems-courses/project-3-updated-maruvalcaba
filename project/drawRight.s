@@ -12,8 +12,12 @@ draw_right:
 skip:
 	mov.b #30, 0(r1)	;r=30
 loop1:
+	cmp.b #40, 0(r1)	;r-40
+	jhs doneblock1
 	mov.b #0, 2(r1)		; c=0
-loop2:	
+loop2:
+	cmp.b #10, 2(r1)	;c-10
+	jhs endloop1
 	mov.b &y, 4(r1)		;s=y
 	add.b 2(r1), 4(r1)	;s+=c
 	cmp.b #0, 4(r1)		;s-0
@@ -34,18 +38,20 @@ skip2:
 
 endloop2:
 	add.b #1, 2(r1)		;c++
-	cmp.b #10, 2(r1)	;c-10
-	jlo loop2 
+	jmp loop2
+endloop1:	
 	add.b #1, 0(r1)		;r++
-	cmp.b #40, 0(r1)	;r-40
-	jhs endloop1
 	jmp loop1
 
-endloop1:
+doneblock1:
 	mov.b #30, 0(r1)	;r = 30
 loop3:
+	cmp.b #40, 0(r1)	;r-40
+	jhs doneblock2
 	mov.b #0, 2(r1)		;c = 0
 loop4:
+	cmp.b #5, 2(r1)		;c-5
+	jhs endloop3
 	mov.b &y, 4(r1)		;s = y
 	add.b 2(r1), 4(r1)	;s += y
 	sub.b #5, 4(r1)		;s -= 5
@@ -66,13 +72,11 @@ skip3:
 	call #drawPixel
 endloop4:
 	add.b #1, 2(r1)		;c++
-	cmp.b #5, 2(r1)		;c-5
-	jlo loop4
+	jmp loop4
+endloop3:	
 	add.b #1, 0(r1)		;r++
-	cmp.b #40, 0(r1)	;r-40
-	jhs endloop3
 	jmp loop3
-endloop3:
+doneblock2:
 	add.b #5, &y		;y+=5
 	add #6, r1		;reset the stack
 	pop r0			;return
