@@ -13,7 +13,7 @@ void drawChar8x12(u_char rcol, u_char rrow, char c,
 {
   u_char col = 0;
   u_char row = 0;
-  u_char bit = 0xff;
+  u_char bit = 0x80;
   u_char oc = c - 0x20;
 
   lcd_setArea(rcol, rrow, rcol + 7, rrow + 11); /* relative to requested col/row */
