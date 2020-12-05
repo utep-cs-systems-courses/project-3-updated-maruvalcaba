@@ -105,7 +105,7 @@ void drawRight()
     }
   }
   for(u_char r = 30; r<40; r++){         /* this erases the previous position of the box
-    for(signed char c = 0; c<5; c++){
+    for(u_char c = 0; c<5; c++){
       signed char s = y;
       s+=c;
       s-=5;
@@ -141,7 +141,7 @@ void draw_left()                         /* this function draws a square moving 
     }
   }
   for(u_char r = 30; r<40; r++){        /* this erases the previous position of the box without erasing the new box */
-    for(signed char c = 0; c<5; c++){   
+    for(u_char c = 0; c<5; c++){   
       signed char s = y;
       s+=c;
       s+=10;
