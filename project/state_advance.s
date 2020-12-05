@@ -1,5 +1,5 @@
 	.arch msp430g2553
-	.p2align 2
+	.p2align 1,0
 	.text
 jt:
 	.word case0
