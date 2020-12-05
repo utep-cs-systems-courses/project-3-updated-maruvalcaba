@@ -2,6 +2,8 @@
 	.p2align 1,0
 	.text
 
+	.extern drawPixel
+	
 	.extern y
 	.global draw_right
 draw_right:

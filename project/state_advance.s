@@ -8,6 +8,11 @@ jt:
 	.word case3
 	.word case4
 
+	.extern red_on_all
+	.extern red_66
+	.extern toggle_red
+	.extern red_33
+	.extern red_25
 	
 	.global state_advance
 state_advance:
